@@ -1,5 +1,3 @@
-OpenConsole()
-
 //////////// listeners //
 
 ListenForSceneChange
@@ -25,6 +23,7 @@ var.DEBUG = 0
 //////////// SCRIPT //
 
 if var.DEBUG != 0 then
+    OpenConsole()
     func.InitMain()
     print("---------------------DEBUG--DELETEALLKEYBIND--------------------")
 end if
