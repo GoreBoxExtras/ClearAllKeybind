@@ -1,0 +1,86 @@
+//////////// listeners //
+
+ListenForInput
+ListenForInstantiation 
+
+//////////// functions //
+
+func = {}
+
+func.DeleteAll = function(list)
+
+    for i in indexes(list) 
+        Destroy({"name":list[i]})
+    end for
+
+    var.objects = []
+
+    func.AddAudio()
+    SendChatMessage({"sender": "Server", "message": "All objects on the map were cleared."})
+
+end function
+
+func.AddAudio = function()
+
+    AddAudioSource
+    SetAudioLoop({"state": false})
+    SetAudioClip({"name": "whoosh.mp3"})
+    SetAudioVolume({"value": 1})
+    SetAudioSpatial({"value": 1})
+    SetAudioMaxDistance({"value": 10000})
+    SetAudioMinDistance({"value": 0})
+    PlayAudioSource
+
+end function
+
+func.ListAdd = function(list, value)
+
+    result = list[0:]
+
+    result.insert(result.len, value)
+
+    return result
+
+end function
+
+//////////// variables //
+
+var = {}
+var.KEYBIND = "RightBracket"
+
+var.objects = []
+var.debounce = 0
+
+
+//////////// SCRIPT //
+
+OnKeyPress = function(args)
+    key = args.key
+    if key == var.KEYBIND then
+           func.DeleteAll(var.objects)
+    end if
+end function
+
+OnInstantiate = function(args)
+
+    spawner = args.player
+    objectname = args.name
+
+    RegisterGameObject({"name": objectname, "registeredName": objectname})
+    var.objects = func.ListAdd(var.objects, objectname)
+
+end function
+
+
+
+//////////// event loop //
+
+while true
+    while _events.len > 0
+        _nextEvent = _events.pull
+        _nextEvent.invoke(_nextEvent.args)
+    end while
+    yield
+end while
+
+

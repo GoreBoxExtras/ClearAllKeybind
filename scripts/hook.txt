@@ -1,0 +1,54 @@
+OpenConsole()
+
+//////////// listeners //
+
+ListenForSceneChange
+
+//////////// functions //
+
+func = {}
+
+
+func.InitMain = function()
+
+    InstantiateEmpty({"name": "MainScript", "x": 0, "y": 0, "z": 0, "rotX": 0, "rotY": 0, "rotZ": 0,"rotW": 0}) // initiante an object for the mainscript
+    ExecuteScript({"target":"MainScript", "script": "main"}) 
+
+end function
+
+
+//////////// variables //
+
+var = {}
+var.DEBUG = 0
+
+//////////// SCRIPT //
+
+if var.DEBUG != 0 then
+    func.InitMain()
+    print("---------------------DEBUG--DELETEALLKEYBIND--------------------")
+end if
+
+OnSceneChanged = function(args)
+
+    // execute the mainscript on the mainscript object
+    if args.sceneName == "sys_Menu" and var.DEBUG != 1 then
+        print("in menu, script cancelled")
+    else
+        func.InitMain()
+    end if
+
+end function
+
+
+//////////// event loop //
+
+while true
+    while _events.len > 0
+        _nextEvent = _events.pull
+        _nextEvent.invoke(_nextEvent.args)
+    end while
+    yield
+end while
+
+

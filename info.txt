@@ -1,0 +1,4 @@
+name: Clear All Keybind
+description: Press "]" on your keyboard to clear all spawned items on the map.
+version:1.0.0
+active:true
